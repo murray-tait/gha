@@ -85,14 +85,14 @@ runs:
       continue-on-error: false
 
     - name: Upload Terraform Plan
-      if: inputs.upload-plan-file
+      if: ${{ inputs.upload-plan-file }}
       uses: actions/upload-artifact@v4
       with:
         name: tfplan
         path: terraform/tfplan
 
     - name: Upload Packaged Lambdas
-      if: inputs.package-lambdas
+      if: ${{ inputs.package-lambdas }}
       uses: actions/upload-artifact@v4
       with:
         name: packages
