@@ -47,10 +47,9 @@ runs:
 
     - name: Terraform format check
       if: inputs.format-check
-      working-directory: ./event-bridge
       id: format
       shell: bash
-      run: terraform fmt -check
+      run: terraform -chdir=./terraform fmt -check
       continue-on-error: true
 
     - name: Terraform Init
