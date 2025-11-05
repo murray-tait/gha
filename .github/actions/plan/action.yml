@@ -55,15 +55,18 @@ runs:
 
     - name: Terraform Init
       id: init
+      shell: bash
       run: terraform -chdir=./terraform init
 
     - name: Terraform Validate
       id: validate
+      shell: bash
       run: terraform -chdir=./terraform validate -no-color
       continue-on-error: false
 
     - name: Terraform Plan
       id: terraform-plan
+      shell: bash
       run: |
         export exitcode=0
         if [ -n "${{ github.event.inputs.target }}" ]; then
@@ -96,6 +99,7 @@ runs:
     # Create string output of Terraform Plan
     - name: Create String Output
       id: terraform-plan-string
+      shell: bash
       run: |
         TERRAFORM_PLAN=$(terraform -chdir=terraform show -no-color tfplan)
 
@@ -112,6 +116,7 @@ runs:
 
     # Publish Terraform Plan as task summary
     - name: Publish Terraform Plan to Task Summary
+      shell: bash
       env:
         SUMMARY: ${{ steps.terraform-plan-string.outputs.summary }}
       run: |
