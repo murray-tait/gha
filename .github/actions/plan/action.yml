@@ -90,7 +90,7 @@ runs:
         name: tfplan
         path: terraform/tfplan
 
-    - if: inputs.package-lambdas
+    - if: inputs.package-lambdas == 'true'
       name: Upload Packaged Lambdas
       uses: actions/upload-artifact@v4
       with:
