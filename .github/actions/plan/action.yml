@@ -1,0 +1,122 @@
+name: Terraform Plan Composite Action
+description: "Terraform Plan"
+
+inputs:
+  deployment_environment:
+    required: true
+    type: string
+  role-to-assume:
+    required: true
+    type: string
+  checkout-ref:
+    required: true
+    type: string
+  target:
+    required: false
+    type: string
+    default:
+  package-lambdas:
+    required: false
+    type: boolean
+    default: false
+  format-check:
+    required: false
+    type: boolean
+    default: false
+  upload-plan-file:
+    required: false
+    type: boolean
+    default: false
+  terraform-version:
+    required: false
+    type: string
+    default: 1.13.4
+runs:
+  using: "composite"
+  steps:
+
+    - name: Git checkout
+      id: git-checkout
+      uses: actions/checkout@v4
+      with:
+        ref: ${{ inputs.checkout-ref }}
+        fetch-depth: 0
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v3
+      id: setup-terraform
+      with:
+        terraform_wrapper: false
+        terraform_version: ${{ inputs.terraform-version }}
+        
+    - name: Terraform format check
+      if: inputs.format-check
+      working-directory: ./event-bridge
+      id: format
+      shell: bash
+      run: terraform fmt -check
+      continue-on-error: true
+
+    - name: Terraform Init
+      id: init
+      run: terraform -chdir=./terraform init
+
+    - name: Terraform Validate
+      id: validate
+      run: terraform -chdir=./terraform validate -no-color
+      continue-on-error: false
+
+    - name: Terraform Plan
+      id: terraform-plan
+      run: |
+        export exitcode=0
+        if [ -n "${{ github.event.inputs.target }}" ]; then
+          terraform plan -target=${{ github.event.inputs.target }} -out=tfplan
+        else
+          terraform plan -out=tfplan
+        fi
+        echo "exitcode=$exitcode" >> $GITHUB_OUTPUT
+        if [ $exitcode -eq 1 ]; then
+          echo Terraform Plan Failed!
+          exit 1
+        else 
+          exit 0
+        fi
+      continue-on-error: false
+    - name: Upload Terraform Plan
+     if: imputs.upload-plan-file
+      uses: actions/upload-artifact@v4
+      with:
+        name: tfplan
+        path: terraform/tfplan
+
+    - name: Upload Packaged Lambdas
+      if: input.package-lambdas
+      uses: actions/upload-artifact@v4
+      with:
+        name: packages
+        path: "terraform/*.zip"
+
+    # Create string output of Terraform Plan
+    - name: Create String Output
+      id: terraform-plan-string
+      run: |
+        TERRAFORM_PLAN=$(terraform -chdir=terraform show -no-color tfplan)
+
+        delimiter="$(openssl rand -hex 8)"
+        echo "summary<<${delimiter}" >> $GITHUB_OUTPUT
+        echo "## Terraform Plan Output for ${{ inputs.deployment_environment }}" >> $GITHUB_OUTPUT
+        echo "<details><summary>Click to expand</summary>" >> $GITHUB_OUTPUT
+        echo "" >> $GITHUB_OUTPUT
+        echo '```terraform' >> $GITHUB_OUTPUT
+        echo "$TERRAFORM_PLAN" >> $GITHUB_OUTPUT
+        echo '```' >> $GITHUB_OUTPUT
+        echo "</details>" >> $GITHUB_OUTPUT
+        echo "${delimiter}" >> $GITHUB_OUTPUT
+
+    # Publish Terraform Plan as task summary
+    - name: Publish Terraform Plan to Task Summary
+      env:
+        SUMMARY: ${{ steps.terraform-plan-string.outputs.summary }}
+      run: |
+        echo "$SUMMARY" >> $GITHUB_STEP_SUMMARY
