@@ -45,9 +45,8 @@ runs:
         terraform_wrapper: false
         terraform_version: ${{ inputs.terraform-version }}
 
-    - name: Terraform format check
+    - if: ${{ inputs.format-check == 'true' }}
       id: format
-      if: ${{ inputs.format-check == 'true' }}
       shell: bash
       run: echo "${{ inputs.format-check }}"
       continue-on-error: true
@@ -84,8 +83,8 @@ runs:
         fi
       continue-on-error: false
 
-    - name: Upload Terraform Plan
-      if: ${{ inputs.upload-plan-file }}
+    - if: ${{ inputs.upload-plan-file == 'true' }}
+      name: Upload Terraform Plan
       uses: actions/upload-artifact@v4
       with:
         name: tfplan
