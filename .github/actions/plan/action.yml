@@ -29,8 +29,10 @@ inputs:
     type: string
     default: 1.13.4
 outputs:
-  summary: ${{ steps.terraform-plan-string.outputs.summary }}
-  exitcode: ${{ steps.terraform-plan.outputs.exitcode }}
+  summary:
+    value: ${{ steps.terraform-plan-string.outputs.summary }}
+  exitcode:
+    value: ${{ steps.terraform-plan.outputs.exitcode }}
 runs:
   using: "composite"
   steps:
