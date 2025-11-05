@@ -11,7 +11,7 @@ inputs:
   target:
     required: false
     type: string
-    default:
+    default: ""
   package-lambdas:
     required: false
     type: boolean
@@ -47,7 +47,7 @@ runs:
 
     - name: Terraform format check
       id: format
-      if: inputs.format-check
+      if: ${{ inputs.format-check == 'true' }}
       shell: bash
       run: echo "${{ inputs.format-check }}"
       continue-on-error: true
