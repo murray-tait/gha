@@ -19,6 +19,7 @@ runs:
   steps:
     - name: Retrieve AWS Credentials
       id: creds
+      shell: bash
       uses: aws-actions/configure-aws-credentials@v4.2.1
       with:
         role-to-assume: ${{ inputs.role-to-assume }}
@@ -26,7 +27,8 @@ runs:
         output-credentials: true
 
     - name: Create AWS Profile
-      description: Create the profile in aws credentials file with the retrieved credentials
+      id: profile
+      shell: bash
       run: |
         mkdir ~/.aws
         touch ~/.aws/credentials
@@ -34,4 +36,4 @@ runs:
         echo "aws_access_key_id = ${{ steps.creds.outputs.aws-access-key-id }}" >> ~/.aws/credentials
         echo "aws_secret_access_key = ${{ steps.creds.outputs.aws-secret-access-key }}" >> ~/.aws/credentials
         echo "aws_session_token = ${{ steps.creds.outputs.aws-session-token }}" >> ~/.aws/credentials
-        echo "" >> ~/.aws/credentials
+        echo "" >>  ~/.aws/credentials
