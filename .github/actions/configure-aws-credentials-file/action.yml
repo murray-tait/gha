@@ -1,0 +1,37 @@
+name: '"Configure AWS Credentials File" Action for GitHub Actions'
+description: "Terraform Plan"
+
+inputs:
+  aws-region:
+    required: true
+    type: string
+  role-to-assume:
+    description: The Amazon Resource Name (ARN) of the role to assume. Use the provided credentials to assume an IAM role and configure the Actions environment with the assumed role credentials rather than with the provided credentials.
+    required: true
+    type: string
+  aws-profile:
+    description: The aws profile used to place the credentials of the role being assumed.  Defaults to "default"
+    required: false
+    default: default
+    type: string
+runs:
+  using: "composite"
+  steps:
+    - name: Retrieve AWS Credentials
+      id: creds
+      uses: aws-actions/configure-aws-credentials@v4.2.1
+      with:
+        role-to-assume: ${{ inputs.role-to-assume }}
+        aws-region: ${{ inputs.aws-region }}
+        output-credentials: true
+
+    - name: Create AWS Profile
+      description: Create the profile in aws credentials file with the retrieved credentials
+      run: |
+        mkdir ~/.aws
+        touch ~/.aws/credentials
+        echo "[${{ inputs.aws-profile }}]" >> ~/.aws/credentials
+        echo "aws_access_key_id = ${{ steps.creds.outputs.aws-access-key-id }}" >> ~/.aws/credentials
+        echo "aws_secret_access_key = ${{ steps.creds.outputs.aws-secret-access-key }}" >> ~/.aws/credentials
+        echo "aws_session_token = ${{ steps.creds.outputs.aws-session-token }}" >> ~/.aws/credentials
+        echo "" >> ~/.aws/credentials
