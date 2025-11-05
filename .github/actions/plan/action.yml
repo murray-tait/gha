@@ -78,6 +78,7 @@ runs:
           terraform -chdir=./terraform  plan -out=tfplan  || export exitcode=$?
         fi
 
+        echo "exitcode=$exitcode"
         echo "exitcode=$exitcode" >> $GITHUB_OUTPUT
 
         if [ $exitcode -eq 1 ]; then
@@ -87,7 +88,6 @@ runs:
           exit 0
         fi
 
-        echo $exitcode
       continue-on-error: false
 
     - if: ${{ inputs.upload-plan-file == 'true' }}
