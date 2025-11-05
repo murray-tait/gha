@@ -45,10 +45,10 @@ runs:
         terraform_wrapper: false
         terraform_version: ${{ inputs.terraform-version }}
 
-    - if: ${{ inputs.format-check == 'true' }}
+    - if: inputs.format-check == 'true'
       id: format
       shell: bash
-      run: echo "${{ inputs.format-check }}"
+      run: terraform -chdir=./terraform fmt -check
       continue-on-error: true
 
     - name: Terraform Init
