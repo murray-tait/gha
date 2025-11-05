@@ -28,6 +28,9 @@ inputs:
     required: false
     type: string
     default: 1.13.4
+outputs:
+  summary: ${{ steps.terraform-plan-string.outputs.summary }}
+  exitcode: ${{ steps.terraform-plan.outputs.exitcode }}
 runs:
   using: "composite"
   steps:
@@ -104,7 +107,7 @@ runs:
         TERRAFORM_PLAN=$(terraform -chdir=terraform show -no-color tfplan)
 
         delimiter="$(openssl rand -hex 8)"
-        echo "summary<<${delimiter}" >> $GITHUB_OUTPUT
+        echo "  <<${delimiter}" >> $GITHUB_OUTPUT
         echo "## Terraform Plan Output for ${{ inputs.deployment_environment }}" >> $GITHUB_OUTPUT
         echo "<details><summary>Click to expand</summary>" >> $GITHUB_OUTPUT
         echo "" >> $GITHUB_OUTPUT
