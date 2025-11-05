@@ -5,9 +5,6 @@ inputs:
   deployment_environment:
     required: true
     type: string
-  role-to-assume:
-    required: true
-    type: string
   checkout-ref:
     required: true
     type: string
@@ -34,7 +31,6 @@ inputs:
 runs:
   using: "composite"
   steps:
-
     - name: Git checkout
       id: git-checkout
       uses: actions/checkout@v4
@@ -48,7 +44,7 @@ runs:
       with:
         terraform_wrapper: false
         terraform_version: ${{ inputs.terraform-version }}
-        
+
     - name: Terraform format check
       if: inputs.format-check
       working-directory: ./event-bridge
@@ -84,7 +80,7 @@ runs:
         fi
       continue-on-error: false
     - name: Upload Terraform Plan
-     if: imputs.upload-plan-file
+      if: imputs.upload-plan-file
       uses: actions/upload-artifact@v4
       with:
         name: tfplan
