@@ -19,7 +19,6 @@ runs:
   steps:
     - name: Retrieve AWS Credentials
       id: creds
-      shell: bash
       uses: aws-actions/configure-aws-credentials@v4.2.1
       with:
         role-to-assume: ${{ inputs.role-to-assume }}
