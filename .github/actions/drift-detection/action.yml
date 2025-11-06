@@ -1,0 +1,95 @@
+name: Terraform Plan Composite Action
+description: "Terraform Plan"
+
+: mentions:
+    required: false
+    type: string
+    default: ""
+outputs:
+  summary:
+    value: ${{ steps.terraform-plan-string.outputs.summary }}
+  exitcode:
+    value: ${{ steps.terraform-plan.outputs.exitcode }}
+runs:
+  using: "composite"
+  steps:
+    - name: Publish Drift Issue
+      if: steps.terraform-plan.outputs.exitcode == 2
+      uses: actions/github-script@v7
+      env:
+        SUMMARY: "${{ steps.terraform-plan.outputs.summary }}"
+        MENTIONS: "${{ inputs.mentions }}"
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+          const body = `${process.env.SUMMARY}`;
+          const mentions = `${process.env.MENTIONS}`
+          if mentions != "" {
+            body = body + "\n" + mentions
+          }
+          const title = 'Terraform Configuration Drift Detected';
+          const creator = 'github-actions[bot]'
+
+          // Look to see if there is an existing drift issue
+          const issues = await github.rest.issues.listForRepo({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            state: 'open',
+            creator: creator,
+            title: title
+          })
+            
+          if( issues.data.length > 0 ) {
+            // We assume there shouldn't be more than 1 open issue, since we update any issue we find
+            const issue = issues.data[0]
+            
+            if ( issue.body == body ) {
+              console.log('Drift Detected: Found matching issue with duplicate content')
+            } else {
+              console.log('Drift Detected: Found matching issue, updating body')
+              github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issue.number,
+                body: body
+              })
+            }
+          } else {
+            console.log('Drift Detected: Creating new issue')
+
+            github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: title,
+              body: body
+            })
+          }
+
+    - name: Close Drift Issue
+      if: steps.terraform-plan.outputs.exitcode == 0
+      uses: actions/github-script@v7
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+          const title = 'Terraform Configuration Drift Detected';
+          const creator = 'github-actions[bot]'
+
+          // Look to see if there is an existing drift issue
+          const issues = await github.rest.issues.listForRepo({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            state: 'open',
+            creator: creator,
+            title: title
+          })
+            
+          if( issues.data.length > 0 ) {
+            const issue = issues.data[0]
+            
+            github.rest.issues.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issue.number,
+              state: 'closed'
+            })
+          }
