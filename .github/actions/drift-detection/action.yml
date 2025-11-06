@@ -29,7 +29,7 @@ runs:
         script: |
           const body = `${process.env.SUMMARY}`;
           const mentions = `${process.env.MENTIONS}`;
-          if mentions {
+          if (mentions) {
             body = body + "\n" + mentions
           }
           const title = 'Terraform Configuration Drift Detected';
