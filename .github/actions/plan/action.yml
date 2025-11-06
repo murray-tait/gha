@@ -111,7 +111,7 @@ runs:
         TERRAFORM_PLAN=$(terraform -chdir=terraform show -no-color tfplan)
 
         delimiter="$(openssl rand -hex 8)"
-        echo "summary=<<${delimiter}" >> $GITHUB_OUTPUT
+        echo "summary<<${delimiter}" >> $GITHUB_OUTPUT
         echo "## Terraform Plan Output for ${{ inputs.deployment_environment }}" >> $GITHUB_OUTPUT
         echo "<details><summary>Click to expand</summary>" >> $GITHUB_OUTPUT
         echo "" >> $GITHUB_OUTPUT
