@@ -31,7 +31,6 @@ runs:
           const mentions = `${process.env.MENTIONS}`;
           const title = 'Terraform Configuration Drift Detected';
           const creator = 'github-actions[bot]';
-          console.log(mentions)
 
           // Look to see if there is an existing drift issue
           const issues = await github.rest.issues.listForRepo({
