@@ -27,7 +27,7 @@ runs:
       with:
         github-token: ${{ inputs.github-token }}
         script: |
-          const body = `${process.env.SUMMARY}`;
+          var body = `${process.env.SUMMARY}`;
           const mentions = `${process.env.MENTIONS}`;
           if (mentions) {
             body = body + "\n" + mentions
