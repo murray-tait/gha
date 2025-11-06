@@ -21,8 +21,8 @@ outputs:
 runs:
   using: "composite"
   steps:
-    - name: Publish Drift Issue
-      if: inputs.drift-detected == 'true'
+    - if: inputs.drift-detected == 'true'
+      name: Publish Drift Issue
       uses: actions/github-script@v7
       env:
         SUMMARY: "${{ steps.terraform-plan.outputs.summary }}"
@@ -73,8 +73,8 @@ runs:
             })
           }
 
-    - name: Close Drift Issue
-      if: inputs.drift-detected == 'false'
+    - if: inputs.drift-detected == 'false'
+      name: Close Drift Issue
       uses: actions/github-script@v7
       with:
         github-token: ${{ inputs.github-token }}
