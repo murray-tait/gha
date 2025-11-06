@@ -1,7 +1,7 @@
-name: Terraform Plan Composite Action
-description: "Terraform Plan"
-
-: mentions:
+name: Publish Drift Report
+description: Publish Drift Report
+inputs:
+  mentions:
     required: false
     type: string
     default: ""
