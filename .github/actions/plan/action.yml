@@ -28,6 +28,10 @@ inputs:
     required: false
     type: string
     default: 1.13.4
+  mentions:
+    required: false
+    type: string
+    default: ""
 outputs:
   summary:
     value: ${{ steps.terraform-plan-string.outputs.summary }}
@@ -119,6 +123,7 @@ runs:
         echo "$TERRAFORM_PLAN" >> $GITHUB_OUTPUT
         echo '```' >> $GITHUB_OUTPUT
         echo "</details>" >> $GITHUB_OUTPUT
+        echo "${{ inputs.mentions }}" >> $GITHUB_OUTPUT
         echo "${delimiter}" >> $GITHUB_OUTPUT
 
     # Publish Terraform Plan as task summary
