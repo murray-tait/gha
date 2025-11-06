@@ -28,12 +28,10 @@ runs:
         github-token: ${{ inputs.github-token }}
         script: |
           const body = `${process.env.SUMMARY}`;
-          const mentions = `${process.env.MENTIONS}`
-          if mentions != "" {
-            body = body + "\n" + mentions
-          }
+          const mentions = `${process.env.MENTIONS}`;
           const title = 'Terraform Configuration Drift Detected';
-          const creator = 'github-actions[bot]'
+          const creator = 'github-actions[bot]';
+          console.log(mentions)
 
           // Look to see if there is an existing drift issue
           const issues = await github.rest.issues.listForRepo({
