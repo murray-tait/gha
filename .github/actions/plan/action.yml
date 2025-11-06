@@ -73,9 +73,9 @@ runs:
       run: |
         export exitcode=0
         if [ -n "${{ github.event.inputs.target }}" ]; then
-          terraform -chdir=./terraform -detailed-exitcode plan -target=${{ github.event.inputs.target }} -out=tfplan || export exitcode=$?
+          terraform -chdir=./terraform plan -detailed-exitcode -target=${{ github.event.inputs.target }} -out=tfplan || export exitcode=$?
         else
-          terraform -chdir=./terraform -detailed-exitcode plan -out=tfplan  || export exitcode=$?
+          terraform -chdir=./terraform plan -detailed-exitcode -out=tfplan  || export exitcode=$?
         fi
 
         echo "exitcode=$exitcode"
