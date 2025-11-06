@@ -126,7 +126,6 @@ runs:
         echo "${{ inputs.mentions }}" >> $GITHUB_OUTPUT
         echo "${delimiter}" >> $GITHUB_OUTPUT
 
-    # Publish Terraform Plan as task summary
     - name: Publish Terraform Plan to Task Summary
       shell: bash
       env:
