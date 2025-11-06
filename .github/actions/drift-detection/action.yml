@@ -22,7 +22,7 @@ runs:
   using: "composite"
   steps:
     - name: Publish Drift Issue
-      if: inputs.drift-detected == '2'
+      if: inputs.drift-detected == 'true'
       uses: actions/github-script@v7
       env:
         SUMMARY: "${{ steps.terraform-plan.outputs.summary }}"
