@@ -1,5 +1,5 @@
 name: Terraform Apply
-
+description: "Terraform Apply"
 inputs:
   deployment_environment:
     required: true
@@ -22,23 +22,26 @@ inputs:
     required: false
     type: string
     default: 1.13.4
-run:
-  using: "compsite"
+runs:
+  using: "composite"
   steps:
     - name: Git checkout
-      uses: actions/checkout@v3
+      id: git-checkout
+      uses: actions/checkout@v4
       with:
         ref: ${{ inputs.checkout-ref }}
         fetch-depth: 0
 
     - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v2
+      uses: hashicorp/setup-terraform@v3
+      id: setup-terraform
       with:
         terraform_wrapper: false
         terraform_version: ${{ inputs.terraform-version }}
 
     - name: Terraform Init
       id: init
+      shell: bash
       run: terraform -chdir=./terraform init
 
     - name: Download Terraform Plan
@@ -49,12 +52,13 @@ run:
       continue-on-error: false
 
     - name: Terraform Apply
-      working-directory: ./terraform
+      id: terraform-apply
+      shell: bash
       run: |
         if [ -n "${{ inputs.target }}" ]; then
-          terraform apply -target=${{ inputs.target }} -auto-approve -input=false tfplan
+          terraform -chdir=./terraform apply -target=${{ inputs.target }} -auto-approve -input=false tfplan
         else
-          terraform apply -auto-approve -input=false tfplan
+          terraform -chdir=./terraform apply -auto-approve -input=false tfplan
         fi
       continue-on-error: false
 
