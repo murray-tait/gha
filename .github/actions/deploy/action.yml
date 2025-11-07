@@ -62,7 +62,8 @@ runs:
         fi
         TERRAFORM_OUTPUT=$(cat apply.txt)
         delimiter="$(openssl rand -hex 8)"
-        echo "output<<${delimiter}$TERRAFORM_OUTPUT" >> $GITHUB_OUTPUT
+        echo "output<<${delimiter}" >> $GITHUB_OUTPUT
+        echo "$TERRAFORM_OUTPUT" >> $GITHUB_OUTPUT
         echo "${delimiter}" >> $GITHUB_OUTPUT
       continue-on-error: false
 
