@@ -60,7 +60,10 @@ runs:
         else
           terraform -chdir=./terraform apply -auto-approve -input=false tfplan | tee apply.txt
         fi
-        echo "output=$(cat apply.txt)" >> $GITHUB_OUTPUT
+        TERRAFORM_OUTPUT=$(cat apply.txt)
+        delimiter="$(openssl rand -hex 8)"
+        echo "output<<${delimiter}$TERRAFORM_OUTPUT" >> $GITHUB_OUTPUT
+        echo "${delimiter}" >> $GITHUB_OUTPUT
       continue-on-error: false
 
     - name: Publish Terraform Plan to Task Summary
