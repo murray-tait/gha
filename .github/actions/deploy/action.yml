@@ -113,9 +113,8 @@ runs:
           })
       continue-on-error: false
 
-    - name: Discord notification
-      env:
-        DISCORD_WEBHOOK: ${{ inputs.DISCORD_SUCCESS_WEBHOOK }}
-      uses: Ilshidur/action-discord@master
+    - name: send custom message
+      uses: appleboy/discord-action@v1.2.0
       with:
-        args: "The project {{ inputs.deployment_environment }} has been deployed."
+        webhook_url: ${{ inputs.success_discord_webhook }}
+        message: The ${{ github.event_name }} event triggered first step.
