@@ -22,6 +22,12 @@ inputs:
     required: false
     type: string
     default: 1.13.4
+  success_discord_webhook:
+    required: false
+    type: string
+  failure_discord_webhook:
+    required: false
+    type: string
 runs:
   using: "composite"
   steps:
