@@ -106,3 +106,10 @@ runs:
             sha: context.sha
           })
       continue-on-error: false
+
+    - name: Discord notification
+      env:
+        DISCORD_WEBHOOK: ${{ secrets.DISCORD_SUCCESS_WEBHOOK }}
+      uses: Ilshidur/action-discord@master
+      with:
+        args: "The project {{ inputs.deployment_environment }} has been deployed."
