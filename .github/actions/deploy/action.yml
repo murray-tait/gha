@@ -117,11 +117,5 @@ runs:
       uses: tsickert/discord-webhook@v7.0.0
       with:
         webhook-url: ${{ inputs.success_discord_webhook }}
-        filename: apply.txt
-
-    - name: Discord notification
-      env:
-        DISCORD_WEBHOOK: ${{ inputs.success_discord_webhook }}
-      uses: Ilshidur/action-discord@master
-      with:
-        args: "The project ${{ inputs.deployment_environment }} for ${{ inputs.checkout-ref }} has been deployed.\n${{ steps.terraform-apply.outputs.output }} "
+        embed-title: Deployment finished with ${{ job.status }}
+        embed_url: ${{ GITHUB_SERVER_URL }}/${{ GITHUB_REPOSITORY }}/actions/runs/${{ GITHUB_RUN_ID }}
