@@ -22,7 +22,7 @@ inputs:
     required: false
     type: string
     default: 1.13.4
-  success_discord_webhook:
+  deployment_discord_webhook:
     required: false
     type: string
   failure_discord_webhook:
@@ -116,6 +116,6 @@ runs:
     - name: Discord Webhook Action
       uses: tsickert/discord-webhook@v7.0.0
       with:
-        webhook-url: ${{ inputs.success_discord_webhook }}
+        webhook-url: ${{ inputs.deployment_discord_webhook }}
         embed-title: Deployment finished with ${{ job.status }}
         embed-url: ${{ github.repositoryUrl }}/actions/runs/${{ github.run_id }}
