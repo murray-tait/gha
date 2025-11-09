@@ -118,4 +118,4 @@ runs:
       with:
         webhook-url: ${{ inputs.success_discord_webhook }}
         embed-title: Deployment finished with ${{ job.status }}
-        embed_url: ${{ GITHUB_SERVER_URL }}/${{ GITHUB_REPOSITORY }}/actions/runs/${{ GITHUB_RUN_ID }}
+        embed_url: ${{ github.repositoryUrl }}/actions/runs/${{ github.run_id }}
