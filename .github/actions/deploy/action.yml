@@ -118,4 +118,4 @@ runs:
         DISCORD_WEBHOOK: ${{ inputs.success_discord_webhook }}
       uses: Ilshidur/action-discord@master
       with:
-        args: "The project ${{ inputs.deployment_environment }} has been deployed."
+        args: "The project ${{ inputs.deployment_environment }} for ${{ inputs.checkout-ref }} has been deployed.\n${{ steps.terraform-apply.outputs.output }} "
