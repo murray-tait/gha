@@ -107,14 +107,6 @@ runs:
       uses: tsickert/discord-webhook@v7.0.0
       with:
         webhook-url: ${{ inputs.deployment_discord_webhook }}
-        username: Bill
-        avatar-url: https://cdn.discordapp.com/avatars/742807869023322232/dd41912939ffccbea0276f70688fa0ec.webp?size=256
-        embed-title: Deployment finished with ${{ job.status }}
-        embed-description: "Bar [test](https://google.com)"
-        embed-author-name: "Bill"
-        embed-author-icon-url: "https://cdn.discordapp.com/avatars/742807869023322232/dd41912939ffccbea0276f70688fa0ec.webp?size=256"
-        embed-author-url: "https://google.com"
-        embed-thumbnail-url: "https://cdn.discordapp.com/avatars/742807869023322232/dd41912939ffccbea0276f70688fa0ec.webp?size=256"
-        embed-image-url: "https://cdn.discordapp.com/avatars/742807869023322232/dd41912939ffccbea0276f70688fa0ec.webp?size=256"
-        embed-footer-icon-url: "https://cdn.discordapp.com/avatars/742807869023322232/dd41912939ffccbea0276f70688fa0ec.webp?size=256"
-        embed-footer-text: "Foot text [test](https://google.com)"
+        username: Github
+        content: [Deployment](${{ github.repositoryUrl }}/actions/runs/${{ github.run_id }}) finished with ${{ job.status }} ${{ github.repositoryUrl }}/actions/runs/${{ github.run_id }}
+
