@@ -18,6 +18,8 @@ inputs:
     required: false
     type: string
   ops-alarms-discord-webhook:
+    required: false
+    type: string
 runs:
   using: "composite"
   steps:
