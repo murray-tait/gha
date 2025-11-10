@@ -108,4 +108,4 @@ runs:
       with:
         webhook-url: ${{ inputs.deployment_discord_webhook }}
         username: Github
-        content: "[Deployment](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) finished with ${{ job.status }} ${{ github.repositoryUrl }}/actions/runs/${{ github.run_id }}"
+        content: "[Deployment](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) finished with ${{ job.status }}"
