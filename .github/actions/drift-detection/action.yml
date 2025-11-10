@@ -14,9 +14,10 @@ inputs:
   summary:
     required: true
     type: string
-  deployment_discord_webhook:
+  ops-info-discord-webhook:
     required: false
-    type: strin
+    type: string
+  ops-alarms-discord-webhook:
 runs:
   using: "composite"
   steps:
@@ -103,9 +104,18 @@ runs:
             })
           }
 
-    - name: Discord Webhook Action
+    - if: ${{ success() }}
+      name: Discord Webhook Action
       uses: tsickert/discord-webhook@v7.0.0
       with:
-        webhook-url: ${{ inputs.deployment_discord_webhook }}
+        webhook-url: ${{ ops-info-discord-webhook }}
+        username: Github
+        content: "[Deployment](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) finished with ${{ job.status }}"
+
+    - if: ${{ cancelled() }}
+      name: Discord Webhook Action
+      uses: tsickert/discord-webhook@v7.0.0
+      with:
+        webhook-url: ${{ ops-info-discord-webhook }}
         username: Github
         content: "[Deployment](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) finished with ${{ job.status }}"
