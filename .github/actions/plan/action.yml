@@ -40,6 +40,12 @@ outputs:
 runs:
   using: "composite"
   steps:
+    - name: Discord start notice
+      uses: tsickert/discord-webhook@v7.0.0
+      with:
+        webhook-url: ${{ inputs.deployment_discord_webhook }}
+        username: Github
+        content: "[Deployment planning](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) started"
     - name: Git checkout
       id: git-checkout
       uses: actions/checkout@v4
@@ -134,3 +140,10 @@ runs:
         SUMMARY: ${{ steps.terraform-plan-string.outputs.summary }}
       run: |
         echo "$SUMMARY" >> $GITHUB_STEP_SUMMARY
+
+    - name: Discord start notice
+      uses: tsickert/discord-webhook@v7.0.0
+      with:
+        webhook-url: ${{ inputs.deployment_discord_webhook }}
+        username: Github
+        content: "[Deployment](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) planning finished with ${{ job.status}}"

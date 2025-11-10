@@ -121,11 +121,3 @@ runs:
         webhook-url: ${{ inputs.ops-alarms-discord-webhook }}
         username: Github
         content: "[Deployment drift detected](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})"
-
-    - if: ${{ cancelled() && inputs.ops-info-discord-webhook != '' }}
-      name: Discord Webhook Action
-      uses: tsickert/discord-webhook@v7.0.0
-      with:
-        webhook-url: ${{ inputs.ops-info-discord-webhook }}
-        username: Github
-        content: "[Deployment](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) finished with ${{ job.status }}"
