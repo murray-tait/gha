@@ -108,7 +108,7 @@ runs:
       name: Discord Webhook Action
       uses: tsickert/discord-webhook@v7.0.0
       with:
-        webhook-url: ${{ ops-info-discord-webhook }}
+        webhook-url: ${{ inputs.ops-info-discord-webhook }}
         username: Github
         content: "[Deployment](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) finished with ${{ job.status }}"
 
@@ -116,6 +116,6 @@ runs:
       name: Discord Webhook Action
       uses: tsickert/discord-webhook@v7.0.0
       with:
-        webhook-url: ${{ ops-info-discord-webhook }}
+        webhook-url: ${{ inputs.ops-info-discord-webhook }}
         username: Github
         content: "[Deployment](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) finished with ${{ job.status }}"
