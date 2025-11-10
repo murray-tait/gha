@@ -31,7 +31,9 @@ inputs:
   mentions:
     required: false
     type: string
-    default: ""
+  deployment_discord_webhook:
+    required: false
+    type: string
 outputs:
   summary:
     value: ${{ steps.terraform-plan-string.outputs.summary }}
@@ -40,7 +42,8 @@ outputs:
 runs:
   using: "composite"
   steps:
-    - name: Discord start notice
+    - if: inputs.deployment_discord_webhook != ''
+      name: Discord start notice
       uses: tsickert/discord-webhook@v7.0.0
       with:
         webhook-url: ${{ inputs.deployment_discord_webhook }}
@@ -141,7 +144,8 @@ runs:
       run: |
         echo "$SUMMARY" >> $GITHUB_STEP_SUMMARY
 
-    - name: Discord start notice
+    - if: inputs.deployment_discord_webhook != ''
+      name: Discord start notice
       uses: tsickert/discord-webhook@v7.0.0
       with:
         webhook-url: ${{ inputs.deployment_discord_webhook }}
