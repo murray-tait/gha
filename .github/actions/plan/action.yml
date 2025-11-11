@@ -156,7 +156,7 @@ runs:
         username: Github
         content: "[Deployment](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) planning finished with ${{ job.status}}"
 
-    - if: inputs.protected-deployment == "true" && inputs.deployment-discord-webhook != '' && success()
+    - if: inputs.protected-deployment == 'true' && inputs.deployment-discord-webhook != '' && success()
       name: Discord approval request notice
       uses: tsickert/discord-webhook@v7.0.0
       with:
