@@ -22,7 +22,7 @@ inputs:
     required: false
     type: string
     default: 1.13.4
-  deployment_discord_webhook:
+  deployment-discord-webhook:
     required: false
     type: string
   failure_discord_webhook:
@@ -31,11 +31,11 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - if: inputs.deployment_discord_webhook != ''
+    - if: inputs.deployment-discord-webhook != ''
       name: Discord start notice
       uses: tsickert/discord-webhook@v7.0.0
       with:
-        webhook-url: ${{ inputs.deployment_discord_webhook }}
+        webhook-url: ${{ inputs.deployment-discord-webhook }}
         username: Github
         content: "[Deployment](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) started"
     - name: Git checkout
@@ -120,10 +120,10 @@ runs:
           })
       continue-on-error: false
 
-    - if: inputs.deployment_discord_webhook != ''
+    - if: inputs.deployment-discord-webhook != ''
       name: Discord finish notice
       uses: tsickert/discord-webhook@v7.0.0
       with:
-        webhook-url: ${{ inputs.deployment_discord_webhook }}
+        webhook-url: ${{ inputs.deployment-discord-webhook }}
         username: Github
         content: "[Deployment](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) finished with ${{ job.status}}"
