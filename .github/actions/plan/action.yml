@@ -31,7 +31,7 @@ inputs:
   mentions:
     required: false
     type: string
-  deployment_discord_webhook:
+  deployment-discord-webhook:
     required: false
     type: string
   protected-deployment:
@@ -46,11 +46,11 @@ outputs:
 runs:
   using: "composite"
   steps:
-    - if: inputs.deployment_discord_webhook != ''
+    - if: inputs.deployment-discord-webhook != ''
       name: Discord start notice
       uses: tsickert/discord-webhook@v7.0.0
       with:
-        webhook-url: ${{ inputs.deployment_discord_webhook }}
+        webhook-url: ${{ inputs.deployment-discord-webhook }}
         username: Github
         content: "[Deployment planning](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) started"
     - name: Git checkout
@@ -148,18 +148,18 @@ runs:
       run: |
         echo "$SUMMARY" >> $GITHUB_STEP_SUMMARY
 
-    - if: inputs.deployment_discord_webhook != ''
+    - if: inputs.deployment-discord-webhook != ''
       name: Discord start notice
       uses: tsickert/discord-webhook@v7.0.0
       with:
-        webhook-url: ${{ inputs.deployment_discord_webhook }}
+        webhook-url: ${{ inputs.deployment-discord-webhook }}
         username: Github
         content: "[Deployment](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) planning finished with ${{ job.status}}"
 
-    - if: inputs.protected-deployment == "true" && inputs.deployment_discord_webhook != '' && success()
+    - if: inputs.protected-deployment == "true" && inputs.deployment-discord-webhook != '' && success()
       name: Discord approval request notice
       uses: tsickert/discord-webhook@v7.0.0
       with:
-        webhook-url: ${{ inputs.deployment_discord_webhook }}
+        webhook-url: ${{ inputs.deployment-discord-webhook }}
         username: Github
         content: "Please review the [deployment for approval](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) for approval"
