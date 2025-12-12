@@ -112,7 +112,7 @@ runs:
       with:
         webhook-url: ${{ inputs.ops-info-discord-webhook }}
         username: Github
-        content: "<[Deployment drift not detected](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})>"
+        content: "<[Deployment drift not detected](<${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}>)"
 
     - if: inputs.drift-detected == 'true' && inputs.ops-alarms-discord-webhook != ''
       name: Discord Webhook Action
@@ -120,4 +120,4 @@ runs:
       with:
         webhook-url: ${{ inputs.ops-alarms-discord-webhook }}
         username: Github
-        content: "<[Deployment drift detected](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})>"
+        content: "[Deployment drift detected](<${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}>)"
