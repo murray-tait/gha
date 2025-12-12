@@ -29,7 +29,7 @@ runs:
       id: profile
       shell: bash
       run: |
-        mkdir ~/.aws
+        mkdir -p ~/.aws
         touch ~/.aws/credentials
         echo "[${{ inputs.aws-profile }}]" >> ~/.aws/credentials
         echo "aws_access_key_id = ${{ steps.creds.outputs.aws-access-key-id }}" >> ~/.aws/credentials
