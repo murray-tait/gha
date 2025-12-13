@@ -52,7 +52,7 @@ runs:
       with:
         webhook-url: ${{ inputs.deployment-discord-webhook }}
         username: Github
-        content: "[Deployment planning of ${{ github.repository }}](<${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}>) of ${{ inputs.checkout-ref }} to ${{ inputs.deployment_environment }} started"
+        content: "[Deployment planning of ${{ github.repository }}](<${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}>) at ${{ inputs.checkout-ref }} to ${{ inputs.deployment_environment }} started"
     - name: Git checkout
       id: git-checkout
       uses: actions/checkout@v4
@@ -154,7 +154,7 @@ runs:
       with:
         webhook-url: ${{ inputs.deployment-discord-webhook }}
         username: Github
-        content: "[Deployment planning of ${{ github.repository }}](<${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}>) at ${{ inputs.checkout-ref }} on ${{ inputs.deployment_environment }} planning finished with ${{ job.status}}"
+        content: "[Deployment planning of ${{ github.repository }}](<${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}>) at ${{ inputs.checkout-ref }} to ${{ inputs.deployment_environment }} planning finished with ${{ job.status}}"
 
     - if: inputs.protected-deployment == 'true' && inputs.deployment-discord-webhook != '' && success()
       name: Discord approval request notice
@@ -162,4 +162,4 @@ runs:
       with:
         webhook-url: ${{ inputs.deployment-discord-webhook }}
         username: Github
-        content: "Please review the [deployment of ${{ github.repository }} for approval](<${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}>) at ${{ inputs.checkout-ref }} on ${{ inputs.deployment_environment }} for approval"
+        content: "Please review the [deployment of ${{ github.repository }} for approval](<${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}>) at ${{ inputs.checkout-ref }} to ${{ inputs.deployment_environment }} for approval"
