@@ -154,7 +154,7 @@ runs:
       with:
         webhook-url: ${{ inputs.deployment-discord-webhook }}
         username: Github
-        content: "[Github Action](<${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}>) deployment planning of the repository **${{ github.repository }}** at tag **${{ inputs.checkout-ref }}** to environment **${{ inputs.deployment_environment }}** planning finished with **${{ job.status}}**"
+        content: "[Github Action](<${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}>) deployment planning of the repository **${{ github.repository }}** at tag **${{ inputs.checkout-ref }}** to environment **${{ inputs.deployment_environment }}** finished with **${{ job.status}}**"
 
     - if: inputs.protected-deployment == 'true' && inputs.deployment-discord-webhook != '' && success()
       name: Discord approval request notice
