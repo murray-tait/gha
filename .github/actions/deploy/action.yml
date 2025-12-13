@@ -37,7 +37,7 @@ runs:
       with:
         webhook-url: ${{ inputs.deployment-discord-webhook }}
         username: Github
-        content: "[Github Action](<${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}>) deployment of **${{ github.repository }}** at **${{ inputs.checkout-ref }}** to **${{ inputs.deployment_environment }}** started"
+        content: "[Github Action](<${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}>) deployment of the repository **${{ github.repository }}** at tag **${{ inputs.checkout-ref }}** to environment **${{ inputs.deployment_environment }}** started"
     - name: Git checkout
       id: git-checkout
       uses: actions/checkout@v4
@@ -126,4 +126,4 @@ runs:
       with:
         webhook-url: ${{ inputs.deployment-discord-webhook }}
         username: Github
-        content: "[Github Action](<${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}>) deployment of **${{ github.repository }}** at **${{ inputs.checkout-ref }}** to **${{ inputs.deployment_environment }}** finished with **${{ job.status}}**"
+        content: "[Github Action](<${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}>) deployment of the repository **${{ github.repository }}** at tag **${{ inputs.checkout-ref }}** to environment**${{ inputs.deployment_environment }}** finished with **${{ job.status}}**"
