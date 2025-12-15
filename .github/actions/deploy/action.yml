@@ -120,7 +120,7 @@ runs:
           })
       continue-on-error: false
 
-    - if: inputs.deployment-discord-webhook != ''
+    - if: inputs.deployment-discord-webhook != '' && always()
       name: Discord finish notice
       uses: tsickert/discord-webhook@v7.0.0
       with:
