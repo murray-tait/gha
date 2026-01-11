@@ -102,7 +102,7 @@ runs:
           github.rest.git.deleteRef({
             owner: context.repo.owner,
             repo: context.repo.repo,
-            ref: 'tags/deployment/main'
+            ref: 'refs/tags/deployment/main'
           })
       continue-on-error: false
 
