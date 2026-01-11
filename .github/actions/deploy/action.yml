@@ -102,7 +102,7 @@ runs:
           github.rest.git.deleteRef({
             owner: context.repo.owner,
             repo: context.repo.repo,
-            ref: 'refs/tags/deployment/main'
+            ref: 'tags/deployment/main'
           })
       continue-on-error: false
 
@@ -115,7 +115,7 @@ runs:
           github.rest.git.createRef({
             owner: context.repo.owner,
             repo: context.repo.repo,
-            ref: 'refs/tags/deployment/main',
+            ref: 'tags/deployment/main',
             sha: context.sha
           })
       continue-on-error: false
