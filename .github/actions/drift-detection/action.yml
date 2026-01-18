@@ -110,7 +110,7 @@ runs:
 
         result-encoding: string 
 
-    - if: inputs.drift-detected == 'false' && steps.close-drift-issue.outputs.result == '0' && inputs.ops-alarms-discord-webhook != '' 
+    - if: inputs.drift-detected == 'false' && steps.close-drift-issue.outputs.result == '1' && inputs.ops-alarms-discord-webhook != '' 
       name: No Drift Detected Log
       uses: tsickert/discord-webhook@v7.0.0
       with:
