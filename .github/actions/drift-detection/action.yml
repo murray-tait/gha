@@ -106,6 +106,18 @@ runs:
             })
           }
 
+          return issues.data.length
+
+        result-encoding: string 
+
+    - if: inputs.drift-detected == 'false' && steps.close-drift-issue.outputs.result == '0' && inputs.ops-alarms-discord-webhook != '' 
+      name: No Drift Detected Log
+      uses: tsickert/discord-webhook@v7.0.0
+      with:
+        webhook-url: ${{ inputs.ops-alarms-discord-webhook }}
+        username: Github
+        content: "[Deployment drift](<${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}>) resolved for ${{ github.repository }}"
+
     - if: inputs.drift-detected == 'false' && inputs.ops-info-discord-webhook != ''
       name: Discord Webhook Action
       uses: tsickert/discord-webhook@v7.0.0
